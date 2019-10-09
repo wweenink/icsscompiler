@@ -40,8 +40,13 @@ ASSIGNMENT_OPERATOR: ':=';
 
 //--- PARSER: ---
 
-stylesheet: EOF;
+stylesheet: stylerule+ EOF;
+
+stylerule: selector body;
+
+selector: ID_IDENT | CLASS_IDENT | LOWER_IDENT;
 body: OPEN_BRACE declaration+ CLOSE_BRACE;
+
 declaration: propertyname expression;
 propertyname: LOWER_IDENT COLON;
-expression: TRUE | FALSE | PIXELSIZE | PERCENTAGE | SCALAR SEMICOLON;
+expression: (TRUE | FALSE | PIXELSIZE | PERCENTAGE | SCALAR | COLOR) SEMICOLON;
