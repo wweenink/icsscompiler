@@ -40,13 +40,17 @@ ASSIGNMENT_OPERATOR: ':=';
 
 //--- PARSER: ---
 
-stylesheet: stylerule+ EOF;
+stylesheet: variableassignment* stylerule* EOF;
+
+// level 1
+variablereference: CAPITAL_IDENT;
+variableassignment: variablereference ASSIGNMENT_OPERATOR expression;
 
 stylerule: selector body;
 
 selector: ID_IDENT | CLASS_IDENT | LOWER_IDENT;
-body: OPEN_BRACE declaration+ CLOSE_BRACE;
+body: OPEN_BRACE declaration* CLOSE_BRACE;
 
-declaration: propertyname expression;
+declaration: propertyname (expression | (variablereference SEMICOLON));
 propertyname: LOWER_IDENT COLON;
 expression: (TRUE | FALSE | PIXELSIZE | PERCENTAGE | SCALAR | COLOR) SEMICOLON;
